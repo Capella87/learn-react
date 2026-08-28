@@ -1,0 +1,51 @@
+{
+  "$schema": "https://raw.githubusercontent.com/devcontainers/spec/main/schemas/devContainer.schema.json",
+  "name": "learn-react",
+  "image": "mcr.microsoft.com/devcontainers/typescript-node:26-trixie",
+  "workspaceFolder": "/workspaces/learn-react",
+  "workspaceMount": "source=${localWorkspaceFolder},target=/workspaces/learn-react,type=bind,consistency=cached",
+
+  // Keep node_modules and the pnpm store inside the container so host-built
+  // native binaries never leak in, and installs stay cached between rebuilds.
+  "mounts": [
+    "source=learn-react-node-modules,target=/workspaces/learn-react/node_modules,type=volume",
+    "source=learn-react-pnpm-store,target=/home/node/.local/share/pnpm/store,type=volume"
+  ],
+
+  "remoteUser": "node",
+  "containerEnv": {
+    "COREPACK_ENABLE_DOWNLOAD_PROMPT": "0"
+  },
+
+  "postCreateCommand": "sudo chown -R node:node /workspaces/learn-react/node_modules /home/node/.local/share/pnpm && corepack enable && corepack install && pnpm install",
+  "postStartCommand": "pnpm install --prefer-offline",
+
+  "forwardPorts": [5173, 4173],
+  "portsAttributes": {
+    "5173": {
+      "label": "Vite dev server",
+      "onAutoForward": "notify"
+    },
+    "4173": {
+      "label": "Vite preview",
+      "onAutoForward": "silent"
+    }
+  },
+
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "oxc.oxc-vscode",
+        "editorconfig.editorconfig",
+        "bradlc.vscode-tailwindcss"
+      ],
+      "settings": {
+        "typescript.tsdk": "node_modules/typescript/lib",
+        "typescript.enablePromptUseWorkspaceTsdk": true,
+        "editor.formatOnSave": false,
+        "files.eol": "\n",
+        "terminal.integrated.defaultProfile.linux": "bash"
+      }
+    }
+  }
+}

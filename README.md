@@ -2,6 +2,21 @@
 
 A scratchpad for learning React.js, JavaScript, TypeScript and  other related frameworks.
 
+## Dev Container
+
+This repo ships a [Dev Container](https://containers.dev/) definition in [.devcontainer/devcontainer.json](.devcontainer/devcontainer.json).
+
+Open the folder in VS Code and run **Dev Containers: Reopen in Container**, or use the CLI:
+
+```sh
+devcontainer up --workspace-folder .
+```
+
+- Base image: `mcr.microsoft.com/devcontainers/typescript-node:26-trixie` (Node 26, matching `engines.node`)
+- pnpm is provisioned by Corepack from the `packageManager` field in `package.json`
+- `node_modules` and the pnpm store live in named volumes, so host and container installs never mix
+- `pnpm dev` serves on port **5173** and `pnpm preview` on **4173**; both are forwarded automatically
+
 ---
 
 This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
